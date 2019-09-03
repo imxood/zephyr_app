@@ -1,0 +1,9 @@
+{
+    "editor.fontSize": 18,
+    "terminal.integrated.fontSize": 16,
+    "editor.mouseWheelZoom": true,
+    "cmake.configureOnOpen": false,
+    "editor.renderWhitespace": "all",
+    "editor.fontFamily": "文泉驿等宽微米黑",
+    "terminal.integrated.fontFamily": "文泉驿等宽微米黑"
+}

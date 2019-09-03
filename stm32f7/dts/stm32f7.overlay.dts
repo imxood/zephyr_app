@@ -1,0 +1,24 @@
+/ {
+	chosen {
+		zephyr,console = &usart2;
+		zephyr,shell-uart = &usart2;
+		zephyr,sram = &sram0;
+		zephyr,flash = &flash0;
+	};
+};
+
+&usart2 {
+	current-speed = <115200>;
+	pinctrl-names = "default";
+	status = "okay";
+};
+
+&usart6 {
+	current-speed = <115200>;
+	pinctrl-names = "default";
+	status = "okay";
+};
+
+&i2c1 {
+	status = "okay";
+};

@@ -1,0 +1,18 @@
+root = true
+
+[*]
+charset = utf-8
+trim_trailing_whitespace = true
+insert_final_newline = true
+
+[*.{c,h,cmake}]
+indent_style = tab
+
+[CMakeLists.txt]
+indent_style = tab
+
+[*.py]
+indent_style = space
+
+[*.{json}]
+indent_style = tab
