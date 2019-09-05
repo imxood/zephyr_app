@@ -1,30 +1,65 @@
 function(add_sources)
-
-	message(STATUS "sources: ${ARGV}")
+	message(STATUS "source files: '${ARGN}'")
 	target_sources(app PRIVATE ${ARGN})
-
 endfunction()
 
 function(add_sources_if condition)
-
 	if(${${condition}})
 		add_sources(${ARGN})
 	endif()
-
 endfunction()
 
 
 function(add_glob_sources)
-
-	file(GLOB_RECURSE FILES ${ARGN})
-	add_sources(${FILES})
-
+	file(GLOB_RECURSE SOURCE_LIST ${ARGN})
+	add_sources(${SOURCE_LIST})
 endfunction()
 
 function(add_glob_sources_if condition)
-
 	if(${${condition}})
 		add_glob_sources(${ARGN})
 	endif()
+endfunction()
 
+
+function(add_dir_sources)
+
+	foreach(dir ${ARGV})
+		if(IS_ABSOLUTE ${dir})
+			set(path ${dir})
+		else()
+			set(path ${CMAKE_CURRENT_SOURCE_DIR}/${dir})
+		endif()
+
+		if(IS_DIRECTORY ${path})
+			file(GLOB_RECURSE SOURCE_LIST "${path}/*.c")
+			add_sources(${SOURCE_LIST})
+			if(EXISTS "${path}/prj.conf")
+				set(prj_config_files ${prj_config_files} "${path}/prj.conf" CACHE INTERNAL "dynamic load prj.conf")
+			else()
+				message(FATAL_ERROR "not exist ${prj_config_files}")
+			endif()
+		else()
+			message(FATAL_ERROR "${ARGN} is not a dir")
+		endif()
+	endforeach()
+
+endfunction()
+
+function(add_dir_sources_if condition)
+	if(${${condition}})
+		add_dir_sources(${ARGN})
+	endif()
+endfunction()
+
+
+function(add_include_directories)
+	foreach(arg ${ARGV})
+		if(IS_ABSOLUTE ${arg})
+			set(path ${arg})
+		else()
+			set(path ${CMAKE_CURRENT_SOURCE_DIR}/${arg})
+		endif()
+		include_directories(zephyr_interface INTERFACE ${path})
+	endforeach()
 endfunction()
