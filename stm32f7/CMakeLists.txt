@@ -38,6 +38,10 @@ add_sources(
 )
 
 add_glob_sources_if(CONFIG_TEST_BME280 tests/drivers/bme280/*.c)
-add_glob_sources_if(CONFIG_TEST_GPIO tests/drivers/gpio/*.c)
+
+add_glob_sources_if(
+	CONFIG_TEST_GPIO
+	tests/drivers/gpio/*.c
+)
 
 zephyr_linker_sources(SECTIONS link/custom-sections.ld)
