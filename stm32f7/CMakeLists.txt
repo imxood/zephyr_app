@@ -21,6 +21,7 @@ include_directories(common/inc)
 add_sources(
 	common/src/init_log.c
 	src/main.c
+	src/led.c
 	# src/test_section.c
 	# src/test_uart.c
 	# tests/kernel/mem_protect/userspace/*.c
