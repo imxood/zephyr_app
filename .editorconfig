@@ -2,6 +2,7 @@ root = true
 
 [*]
 charset = utf-8
+indent_style = space
 trim_trailing_whitespace = true
 insert_final_newline = true
 
@@ -10,9 +11,6 @@ indent_style = tab
 
 [CMakeLists.txt]
 indent_style = tab
-
-[*.py]
-indent_style = space
 
 [*.{json}]
 indent_style = tab

@@ -19,9 +19,11 @@ endif()
 include_directories(common/inc)
 
 add_sources(
+	common/src/helper.c
 	common/src/init_log.c
 	src/main.c
 	src/led.c
+	src/i2c_24c02.c
 	# src/test_section.c
 	# src/test_uart.c
 	# tests/kernel/mem_protect/userspace/*.c
