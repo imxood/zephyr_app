@@ -23,17 +23,17 @@ int i2c_24c02_read(struct device *dev, uint8_t start_addr, uint8_t *data, uint8_
     // write: device write address, device word address
     msgs[0].buf = addrs;
     msgs[0].len = 2;
-    msgs[0].flags = I2C_MSG_WRITE | I2C_MSG_RESTART;
+    msgs[0].flags = I2C_MSG_WRITE;
 
     // write: device read address
     msgs[1].buf = &addr_read;
     msgs[1].len = 1;
-    msgs[1].flags = I2C_MSG_WRITE | I2C_MSG_RESTART;
+    msgs[1].flags = I2C_MSG_WRITE;
 
     // read data
     msgs[2].buf = data;
     msgs[2].len = len;
-    msgs[2].flags = I2C_MSG_READ | I2C_MSG_STOP;
+    msgs[2].flags = I2C_MSG_READ | I2C_MSG_RESTART;
 
     return i2c_transfer(dev, msgs, 3, I2C_SLAVE_ADDR);
 }
@@ -43,7 +43,7 @@ int i2c_24c02_write(struct device *dev, uint8_t start_addr, uint8_t *data, uint8
     // 1010(固定值) 000(A2A1A0)0(R:1,W:0)
     uint8_t addrs[] = {0xa0, start_addr};
 
-    struct i2c_msg msgs[3];
+    struct i2c_msg msgs[2];
     uint8_t addr_read = 0xa1;
 
     // write: device write address, device word address
@@ -56,17 +56,17 @@ int i2c_24c02_write(struct device *dev, uint8_t start_addr, uint8_t *data, uint8
     // write data
     msgs[1].buf = data;
     msgs[1].len = len;
-    msgs[1].flags = I2C_MSG_WRITE | I2C_MSG_STOP;
+    msgs[1].flags = I2C_MSG_WRITE | I2C_MSG_RESTART;
 
-    return i2c_transfer(dev, msgs, 3, I2C_SLAVE_ADDR);
+    return i2c_transfer(dev, msgs, 2, I2C_SLAVE_ADDR);
 }
 
 void test_i2c_24c02(void)
 {
     int32_t ret = 0;
     uint8_t buf[256] = {0};
-    printk("%s[%d]\n", __func__, __LINE__);
 
+    printk("%s[%d]\n", __func__, __LINE__);
     i2c_dev = device_get_binding(I2C_DEV_NAME);
     if (i2c_dev == NULL)
     {
@@ -74,12 +74,14 @@ void test_i2c_24c02(void)
         return;
     }
 
+    printk("%s[%d]\n", __func__, __LINE__);
     ret = i2c_configure(i2c_dev, i2c_cfg);
     if (ret) {
         printk("run i2c_configure failed, ret: %d\n", ret);
         return;
     }
 
+    printk("%s[%d]\n", __func__, __LINE__);
     ret = i2c_24c02_read(i2c_dev, 0x00, buf, 256);
     if (ret) {
         printk("run i2c_24c02_read failed, ret: %d\n", ret);
@@ -91,6 +93,7 @@ void test_i2c_24c02(void)
         buf[i] = i;
     }
 
+    printk("%s[%d]\n", __func__, __LINE__);
     ret = i2c_24c02_write(i2c_dev, 0x00, buf, 256);
     if (ret) {
         printk("run i2c_24c02_write failed, ret: %d\n", ret);
@@ -99,6 +102,7 @@ void test_i2c_24c02(void)
 
     memset(buf, 0, 256);
 
+    printk("%s[%d]\n", __func__, __LINE__);
     ret = i2c_24c02_read(i2c_dev, 0x00, buf, 256);
     if (ret) {
         printk("run i2c_24c02_read failed, ret: %d\n", ret);
