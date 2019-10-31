@@ -63,8 +63,9 @@ int i2c_24c02_write(struct device *dev, uint8_t start_addr, uint8_t *data, uint8
 
 void test_i2c_24c02(void)
 {
-    printk("%s[%d]\n", __func__, __LINE__);
+    int32_t ret = 0;
     uint8_t buf[256] = {0};
+    printk("%s[%d]\n", __func__, __LINE__);
 
     i2c_dev = device_get_binding(I2C_DEV_NAME);
     if (i2c_dev == NULL)
@@ -73,20 +74,36 @@ void test_i2c_24c02(void)
         return;
     }
 
-    i2c_configure(i2c_dev, i2c_cfg);
+    ret = i2c_configure(i2c_dev, i2c_cfg);
+    if (ret) {
+        printk("run i2c_configure failed, ret: %d\n", ret);
+        return;
+    }
 
-    i2c_24c02_read(i2c_dev, 0x00, buf, 256);
+    ret = i2c_24c02_read(i2c_dev, 0x00, buf, 256);
+    if (ret) {
+        printk("run i2c_24c02_read failed, ret: %d\n", ret);
+        return;
+    }
     hexdump(buf, 256);
 
     for (int i = 0; i < 256; i++) {
         buf[i] = i;
     }
 
-    i2c_24c02_write(i2c_dev, 0x00, buf, 256);
+    ret = i2c_24c02_write(i2c_dev, 0x00, buf, 256);
+    if (ret) {
+        printk("run i2c_24c02_write failed, ret: %d\n", ret);
+        return;
+    }
 
     memset(buf, 0, 256);
 
-    i2c_24c02_read(i2c_dev, 0x00, buf, 256);
+    ret = i2c_24c02_read(i2c_dev, 0x00, buf, 256);
+    if (ret) {
+        printk("run i2c_24c02_read failed, ret: %d\n", ret);
+        return;
+    }
     hexdump(buf, 256);
 }
 
