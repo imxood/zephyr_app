@@ -34,7 +34,7 @@ void led_service(struct device *unused)
     gpio_pin_disable_callback(led_dev, LED_PIN);
     gpio_pin_configure(led_dev, LED_PIN, GPIO_DIR_OUT);
 
-    k_timer_start(&led_shine_timer, 0, K_SECONDS(1));
+    k_timer_start(&led_shine_timer, K_SECONDS(1), 0);
 }
 
 SYS_INIT(led_service, APPLICATION, 90);

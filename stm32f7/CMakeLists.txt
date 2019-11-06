@@ -24,6 +24,7 @@ add_sources(
 	src/main.c
 	src/led.c
 	src/i2c_24c02.c
+	src/oled.c
 	# src/test_section.c
 	# src/test_uart.c
 	# tests/kernel/mem_protect/userspace/*.c
