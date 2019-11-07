@@ -11,8 +11,10 @@ endfunction()
 
 
 function(add_glob_sources)
-	file(GLOB_RECURSE SOURCE_LIST ${ARGN})
-	add_sources(${SOURCE_LIST})
+    foreach(spec ${ARGN})
+	    file(GLOB_RECURSE SOURCE_LIST ${spec})
+        add_sources(${SOURCE_LIST})
+    endforeach()
 endfunction()
 
 function(add_glob_sources_if condition)

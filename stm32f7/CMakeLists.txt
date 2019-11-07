@@ -25,6 +25,8 @@ add_sources(
 	src/led.c
 	src/i2c_24c02.c
 	src/oled.c
+	src/bullseye.c
+	# /home/maxu/programs/BullseyeCoverage/run/libcov-printf.c
 	# src/test_section.c
 	# src/test_uart.c
 	# tests/kernel/mem_protect/userspace/*.c

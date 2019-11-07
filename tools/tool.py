@@ -34,7 +34,8 @@ OUTPUT = os.path.join(WORKSPACE, 'builds')
 Env = {
     'ZEPHYR_BASE': ZEPHYR_BASE,
     'ZEPHYR_SDK_INSTALL_DIR': '{}/programs/zephyr-sdk'.format(HOME),
-    'ZEPHYR_TOOLCHAIN_VARIANT': 'zephyr'
+    'ZEPHYR_TOOLCHAIN_VARIANT': 'zephyr',
+    'PATH': '/home/maxu/programs/BullseyeCoverage/bin:/home/maxu/programs/zephyr-sdk/arm-zephyr-eabi/bin:{}'.format(os.environ['PATH'])
 }
 
 if BOARD == 'esp32':
@@ -330,7 +331,8 @@ def config():
 
     PROJECT_HOME = '{}/{}'.format(WORKSPACE, PROJECT)
 
-    cmd = 'cmake --debug -H{} -B{} -G"{}" -DCMAKE_BUILD_TYPE=Debug -DCMAKE_VERBOSE_MAKEFILE=ON -DBOARD={} -DCMAKE_EXPORT_COMPILE_COMMANDS=1'
+    cmd = 'cmake --debug -H{} -B{} -G"{}" -DCMAKE_BUILD_TYPE=Debug -DBOARD={} -DCMAKE_EXPORT_COMPILE_COMMANDS=1'
+    # -DCMAKE_VERBOSE_MAKEFILE=ON
     cmd = cmd.format(PROJECT_HOME, OUTPUT, generator, BOARD)
 
     boards_dir = os.path.join(PROJECT_HOME, 'boards')
